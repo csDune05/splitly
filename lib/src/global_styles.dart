@@ -47,6 +47,12 @@ class AppTextStyles {
       fontSize: AppSizes.screenWidth * 0.065,
       color: AppColors.primary,
     );
+  
+  static TextStyle get whiteTitle => TextStyle(
+    fontWeight: FontWeight.w600,
+    fontSize: AppSizes.screenWidth * 0.065,
+    color: AppColors.white,
+  );
 
   static TextStyle get captiontTitle => TextStyle(
         fontWeight: FontWeight.w500,
