@@ -107,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
 
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: Color(0xFF6366F1), width: 2),
+                            borderSide: BorderSide(color: AppColors.primaryLight, width: 2),
                           ),
 
                           contentPadding: EdgeInsets.symmetric(
@@ -155,7 +155,7 @@ class _LoginPageState extends State<LoginPage> {
 
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: Color(0xFF6366F1), width: 2),
+                            borderSide: BorderSide(color: AppColors.primaryLight, width: 2),
                           ),
 
                           contentPadding: EdgeInsets.symmetric(
@@ -218,7 +218,7 @@ class _LoginPageState extends State<LoginPage> {
                           },
 
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppButtonStyles.primaryButtonColor,
+                            backgroundColor: AppColors.primary,
 
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
