@@ -34,20 +34,28 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
 
-        title: Text(
-          "Login",
-          style: AppTextStyles.normalTitle,
-        ),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(AppSizes.screenHeight * 0.08),
 
-        elevation: 0,
+        child: AppBar(
+          backgroundColor: Colors.white,
+          shadowColor: Colors.grey.withOpacity(0.5), 
 
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
+          title: Text(
+            "Login",
+            style: AppTextStyles.normalTitle,
+          ),
+
+          centerTitle: true,
+
+          elevation: 0.0,
+
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+            onPressed: () => Navigator.pop(context),
+          ),
+        )
       ),
       
       body: SafeArea(
@@ -69,8 +77,6 @@ class _LoginPageState extends State<LoginPage> {
                         "Welcome Back",
                         style: AppTextStyles.highlightTitle,
                       ),
-
-                      SizedBox(height: screenSize.height * 0.015),
 
                       Text(
                         "Hello there, sign in to continue!",
@@ -94,6 +100,10 @@ class _LoginPageState extends State<LoginPage> {
                           hintStyle: AppTextStyles.hintText, 
                           filled: true,
                           fillColor: Colors.grey.shade50,
+                          prefixIcon: Icon(
+                            Icons.person,
+                            color: Colors.grey.shade500,
+                          ),
 
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -142,6 +152,10 @@ class _LoginPageState extends State<LoginPage> {
                           hintStyle: AppTextStyles.hintText, 
                           filled: true,
                           fillColor: Colors.grey.shade50,
+                          prefixIcon: Icon(
+                            Icons.lock,
+                            color: Colors.grey.shade500,
+                          ),
 
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
