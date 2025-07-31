@@ -1,4 +1,4 @@
-// lib/src/global.dart
+// lib/src/global_styles.dart
 
 import 'package:flutter/material.dart';
 
@@ -30,66 +30,75 @@ class AppButtonStyles {
 }
 
 class AppTextStyles {
+  static const double _titleLarge = 32.0;
+  static const double _titleMedium = 24.0;
+  static const double _titleSmall = 20.0;
+  static const double _bodyLarge = 18.0;
+  static const double _bodyMedium = 16.0;
+  static const double _bodySmall = 14.0;
+  static const double _caption = 12.0;
+  static const double _button = 16.0;
+
   static TextStyle get bigTitle => TextStyle(
         fontWeight: FontWeight.bold,
-        fontSize: AppSizes.screenWidth * 0.11,
+        fontSize: _titleLarge,
         color: AppColors.primary,
         letterSpacing: 1.5,
       );
 
-  static TextStyle get normalTitle => TextStyle(
+   static TextStyle get normalTitle => TextStyle(
         fontWeight: FontWeight.w600,
-        fontSize: AppSizes.screenWidth * 0.065,
+        fontSize: _titleMedium, 
       );
 
   static TextStyle get highlightTitle => TextStyle(
       fontWeight: FontWeight.w600,
-      fontSize: AppSizes.screenWidth * 0.065,
+      fontSize: _titleMedium,
       color: AppColors.primary,
     );
   
   static TextStyle get whiteTitle => TextStyle(
     fontWeight: FontWeight.w600,
-    fontSize: AppSizes.screenWidth * 0.065,
+    fontSize: _titleMedium, 
     color: AppColors.white,
   );
 
   static TextStyle get captiontTitle => TextStyle(
         fontWeight: FontWeight.w500,
-        fontSize: AppSizes.screenWidth * 0.035,
+        fontSize: _bodySmall, 
         color: Colors.grey.shade700,
     );
 
   static TextStyle get body => TextStyle(
-        fontSize: AppSizes.screenWidth * 0.038,
+        fontSize: _bodyMedium, 
         color: Colors.black,
       );
 
   static TextStyle get caption => TextStyle(
-        fontSize: AppSizes.screenWidth * 0.035,
+        fontSize: _caption, 
         color: Colors.grey.shade600,
       );
 
   static TextStyle get buttonPrimary => TextStyle(
-        fontSize: AppSizes.screenWidth * 0.045,
+        fontSize: _button,
         fontWeight: FontWeight.w600,
         color: Colors.white,
       );
 
   static TextStyle get buttonSecondary => TextStyle(
-        fontSize: AppSizes.screenWidth * 0.045,
+        fontSize: _button,
         fontWeight: FontWeight.w600,
         color: AppColors.primary,
       );
 
   static TextStyle get link => TextStyle(
-        fontSize: AppSizes.screenWidth * 0.035,
+        fontSize: _caption, 
         fontWeight: FontWeight.w600,
         color: AppColors.primaryLight,
       );
 
   static TextStyle get hintText => TextStyle(
-        fontSize: AppSizes.screenWidth * 0.038,
+        fontSize: _bodyMedium, 
         color: Colors.grey.shade400,
     );
 }
