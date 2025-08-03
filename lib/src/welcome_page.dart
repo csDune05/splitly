@@ -56,23 +56,26 @@ class WelcomePage extends StatelessWidget {
                     children: [
                       SizedBox(
                         width: 500,
-
-                        child: ElevatedButton(
-                          onPressed: () {
-                           
+                        child: BouncyButton(
+                          onTap: () {
+                            //Google sign in
                           },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color.fromARGB(255, 232, 240, 255),
-                            shape: RoundedRectangleBorder(
+                          duration: Duration(milliseconds: 60),
+                          scale: 0.88,
+
+                          child: Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 232, 240, 255),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            padding: EdgeInsets.symmetric(
-                              vertical: 20,
+                            padding: EdgeInsets.symmetric(vertical: 15),
+
+                            child: Text(
+                              'Sign in with Google',
+                              style: AppTextStyles.buttonSecondary,
+                              textAlign: TextAlign.center,
                             ),
-                          ),
-                          child: Text(
-                            'Sign in with Google',
-                            style: AppTextStyles.buttonSecondary
                           ),
                         ),
                       ),
@@ -80,31 +83,33 @@ class WelcomePage extends StatelessWidget {
                       SizedBox(height: AppSizes.screenHeight * 0.025),
 
                       SizedBox(
-                        width: double.infinity,
-
-                        child: ElevatedButton(
-                          onPressed: () {
+                        width: 500,
+                        child: BouncyButton(
+                          onTap: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => SignupPage()),
                             );
                           },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF0041C4),
-                            overlayColor: Colors.black,
-                            shape: RoundedRectangleBorder(
+                          duration: Duration(milliseconds: 80),
+                          scale: 0.82,
+
+                          child: Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF0041C4),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            padding: EdgeInsets.symmetric(
-                              vertical: 20,
+                            padding: EdgeInsets.symmetric(vertical: 15),
+
+                            child: Text(
+                              'Create an account',
+                              style: AppTextStyles.buttonPrimary,
+                              textAlign: TextAlign.center,
                             ),
                           ),
-                          child: Text(
-                            'Create an account',
-                            style: AppTextStyles.buttonPrimary
-                          ),
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ),
@@ -118,15 +123,15 @@ class WelcomePage extends StatelessWidget {
                       "Already have an account? ",
                       style: AppTextStyles.caption,
                     ),
-                    InkWell(
+                    BouncyButton(
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => LoginPage()),
                         );
                       },
-                      splashColor: Colors.blue.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(4),
+                      duration: Duration(milliseconds: 60),
+                      scale: 0.88,
                       child: Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: Text(

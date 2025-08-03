@@ -315,31 +315,30 @@ class _SignupPageState extends State<SignupPage> {
 
                       SizedBox(
                         width: double.infinity,
-
-                        child: ElevatedButton(
-                          onPressed: () {
+                        child: BouncyButton(
+                          onTap: () {
                             if (_formKey.currentState!.validate()) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text('Create an account...')),
                               );
                             }
                           },
-
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-
-                            shape: RoundedRectangleBorder(
+                          duration: Duration(milliseconds: 80),
+                          scale: 0.82,
+                          child: Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: AppColors.primary,
                               borderRadius: BorderRadius.circular(12),
                             ),
                             padding: EdgeInsets.symmetric(
                               vertical: isSmallScreen ? 16 : 18,
                             ),
-                            elevation: 0,
-                          ),
-
-                          child: Text(
-                            'Sign up',
-                            style: AppTextStyles.buttonPrimary,
+                            child: Text(
+                              'Sign up',
+                              style: AppTextStyles.buttonPrimary,
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                         ),
                       ),
@@ -353,15 +352,15 @@ class _SignupPageState extends State<SignupPage> {
                             "Already have an account? ",
                             style: AppTextStyles.caption,
                           ),
-                          InkWell(
+                          BouncyButton(
                             onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => LoginPage()),
                               );
                             },
-                            splashColor: Colors.blue.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(4),
+                            duration: Duration(milliseconds: 60),
+                            scale: 0.88,
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: Text(
