@@ -69,7 +69,7 @@ class WelcomePage extends StatelessWidget {
                               color: const Color.fromARGB(255, 232, 240, 255),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            padding: EdgeInsets.symmetric(vertical: 15),
+                            padding: EdgeInsets.symmetric(vertical: 16),
 
                             child: Text(
                               'Sign in with Google',
@@ -100,7 +100,7 @@ class WelcomePage extends StatelessWidget {
                               color: const Color(0xFF0041C4),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            padding: EdgeInsets.symmetric(vertical: 15),
+                            padding: EdgeInsets.symmetric(vertical: 16),
 
                             child: Text(
                               'Create an account',
