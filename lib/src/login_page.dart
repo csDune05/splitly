@@ -229,10 +229,15 @@ class _LoginPageState extends State<LoginPage> {
                         child: BouncyButton(
                           onTap: () {
                             if (_formKey.currentState!.validate()) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Signing in...')),
+                              // ScaffoldMessenger.of(context).showSnackBar(
+                              //   SnackBar(content: Text('Signing in...')),
+                              // );
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => HomePage()),
                               );
-                            }
+                            } 
                           },
                           duration: Duration(milliseconds: 80),
                           scale: 0.82,

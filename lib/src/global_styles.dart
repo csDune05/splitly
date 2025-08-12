@@ -42,15 +42,15 @@ class AppButtonStyles {
 }
 
 class AppTextStyles {
-  static const double _titleLarge = 34.0;
-  static const double _titleMedium = 26.0;
-  static const double _titleSmall = 22.0;
-  static const double _bodyLarge = 20.0;
-  static const double _bodyMedium = 18.0;
-  static const double _bodySmall = 16.0;
-  static const double _caption = 16.0;
-  static const double _button = 18.0;
-  static const double _link = 16.0;
+  static const double _titleLarge = 32.0;
+  static const double _titleMedium = 24.0;
+  static const double _titleSmall = 20.0;
+  static const double _bodyLarge = 18.0;
+  static const double _bodyMedium = 16.0;
+  static const double _bodySmall = 14.0;
+  static const double _caption = 14.0;
+  static const double _button = 16.0;
+  static const double _link = 14.0;
 
   static TextStyle get bigTitle => TextStyle(
         fontWeight: FontWeight.bold,
