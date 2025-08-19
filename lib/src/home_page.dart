@@ -12,33 +12,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0;
   final ScrollController _scrollController = ScrollController();
 
   @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
-  }
-
-  void _onNavBarTap(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-    
-    switch (index) {
-      case 0:
-        break;
-      case 1:
-        break;
-      case 2:
-        _showAddOptions();
-        break;
-      case 3:
-        break;
-      case 4:
-        break;
-    }
   }
 
   void _showAddOptions() {
@@ -99,8 +78,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       bottomNavigationBar: HomeNavigationBar(
-        currentIndex: _currentIndex,
-        onNavBarTap: _onNavBarTap,
+        onAddTap: _showAddOptions,
       ),
     );
   }

@@ -3,13 +3,9 @@ import '../src/global_styles.dart';
 import '../src/screens.dart';
 
 class HomeNavigationBar extends StatelessWidget {
-  final int currentIndex;
-  final Function(int) onNavBarTap;
+  final VoidCallback onAddTap;
 
-  HomeNavigationBar({
-    required this.currentIndex, 
-    required this.onNavBarTap
-  });
+  HomeNavigationBar({required this.onAddTap});
 
   @override
   Widget build(BuildContext context) {
@@ -39,39 +35,46 @@ class HomeNavigationBar extends StatelessWidget {
             left: 0,
             right: 0,
             top: 15, 
-
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _buildNavItem(
-                  index: 0,
                   icon: Icons.home_rounded,
                   label: 'Home',
-                  isActive: currentIndex == 0,
+                  isActive: true, 
+                  onTap: () {
+                    
+                  },
                 ),
 
                 _buildNavItem(
-                  index: 1,
                   icon: Icons.people_rounded,
                   label: 'Groups',
-                  isActive: currentIndex == 1,
+                  isActive: false,
+                  onTap: () {
+                    // TODO Navigate to groups page
+                  },
                 ),
 
                 _buildAddButton(),
 
                 _buildNavItem(
-                  index: 3,
                   icon: Icons.person_add_rounded,
                   label: 'Friends',
-                  isActive: currentIndex == 3,
+                  isActive: false,
+                  onTap: () {
+                    // TODO Navigate to friends page
+                  },
                 ),
                 
                 _buildNavItem(
-                  index: 4,
                   icon: Icons.account_circle_rounded,
                   label: 'Profile',
-                  isActive: currentIndex == 4,
+                  isActive: false,
+                  onTap: () {
+                    // TODO Navigate to profile page
+                  },
                 ),
               ],
             ),
@@ -83,8 +86,7 @@ class HomeNavigationBar extends StatelessWidget {
 
   Widget _buildAddButton() {
     return BouncyButton(
-      onTap: () => onNavBarTap(2),
-
+      onTap: onAddTap,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -124,14 +126,13 @@ class HomeNavigationBar extends StatelessWidget {
   }
 
   Widget _buildNavItem({
-    required int index,
     required IconData icon,
     required String label,
     required bool isActive,
+    required VoidCallback onTap,
   }) {
     return BouncyButton(
-      onTap: () => onNavBarTap(index),
-
+      onTap: onTap,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
         child: Column(
@@ -147,7 +148,6 @@ class HomeNavigationBar extends StatelessWidget {
                     shape: BoxShape.circle,
                   )
                 : null,
-
               child: Center(
                 child: Icon(
                   icon,
@@ -156,7 +156,6 @@ class HomeNavigationBar extends StatelessWidget {
                 ),
               ),
             ),
-
             Text(
               label,
               style: TextStyle(
