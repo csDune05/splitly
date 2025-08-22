@@ -7,9 +7,19 @@ class HomeAppBar extends StatefulWidget {
   _HomeAppBarState createState() => _HomeAppBarState();
 }
 
-class _HomeAppBarState extends State<HomeAppBar> {
+class _HomeAppBarState extends State<HomeAppBar> with SingleTickerProviderStateMixin{
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
+  
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _searchFocusNode.dispose();
+    super.dispose();
+  }
+
+  static const Duration _snapDuration = Duration(milliseconds: 240);
+  static const Curve _snapCurve = Curves.easeOutCubic;
 
   void _performSearch() {
     final query = _searchController.text.trim();
@@ -18,7 +28,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
     }
   }
 
-  void _openMenu() {
+  void _openNotification() {
     // TODO: Implement menu functionality
   }
 
@@ -26,7 +36,8 @@ class _HomeAppBarState extends State<HomeAppBar> {
   Widget build(BuildContext context) {
     return SliverAppBar(
       expandedHeight: 180.0,
-      floating: false,
+      floating: true,
+      snap: true, 
       pinned: true,
       elevation: 0,
       automaticallyImplyLeading: false,
@@ -130,7 +141,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
                     SizedBox(width: 12),
                     
                     BouncyButton(
-                      onTap: _openMenu,
+                      onTap: _openNotification,
                       child: Container(
                         width: 40,
                         height: 40,
@@ -139,7 +150,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
-                          Icons.menu,
+                          Icons.notifications_outlined,
                           color: Colors.white,
                           size: 20,
                         ),
@@ -225,7 +236,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
                           ),
                           SizedBox(width: 10), 
                           BouncyButton(
-                            onTap: _openMenu,
+                            onTap: _openNotification,
                             child: Container(
                               width: 30, 
                               height: 30,
@@ -234,7 +245,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
                                 shape: BoxShape.circle,
                               ),
                               child: Icon(
-                                Icons.menu,
+                                Icons.notifications_outlined,
                                 color: Colors.white,
                                 size: 19, 
                               ),
@@ -251,12 +262,5 @@ class _HomeAppBarState extends State<HomeAppBar> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    _searchFocusNode.dispose();
-    super.dispose();
   }
 }

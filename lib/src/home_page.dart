@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'global_styles.dart';
-import '../home_component/app_bar_home.dart';
-import '../home_component/list_group_home.dart';
-import '../home_component/navigation_bar_home.dart';
+import '../components/home_app_bar.dart';
+import '../components/list_group.dart';
+import '../components/navigation_bar.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
         physics: BouncingScrollPhysics(),
         slivers: [
           HomeAppBar(), 
-          ListGroupHome(), 
+          ListGroup(), 
         ],
       ),
       bottomNavigationBar: HomeNavigationBar(

@@ -16,7 +16,7 @@ class AppSizes {
     textScaleFactor = mediaQuery.textScaleFactor;
   }
 
-   static double getResponsiveFontSize(double baseSize, {
+  static double getResponsiveFontSize(double baseSize, {
     double minScale = 0.85,
     double maxScale = 1.3,
   }) {
