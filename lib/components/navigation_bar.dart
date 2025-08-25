@@ -10,7 +10,7 @@ class HomeNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 120, 
+      height: 95, 
       decoration: BoxDecoration(
         color: Colors.grey[50],
         border: Border(
@@ -21,7 +21,7 @@ class HomeNavigationBar extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.15),
+            color: Colors.grey.withOpacity(0.3),
             spreadRadius: 0,
             blurRadius: 12,
             offset: Offset(0, -4),
@@ -34,14 +34,13 @@ class HomeNavigationBar extends StatelessWidget {
           Positioned(
             left: 0,
             right: 0,
-            top: 15, 
+            top: 8, 
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _buildNavItem(
                   icon: Icons.home_rounded,
-                  label: 'Home',
                   isActive: true, 
                   onTap: () {
                     
@@ -49,28 +48,25 @@ class HomeNavigationBar extends StatelessWidget {
                 ),
 
                 _buildNavItem(
-                  icon: Icons.people_rounded,
-                  label: 'Groups',
+                  icon: Icons.people_outline_sharp,
                   isActive: false,
                   onTap: () {
-                    // TODO Navigate to groups page
+                    // TODO Navigate to friends page
                   },
                 ),
 
                 _buildAddButton(),
 
                 _buildNavItem(
-                  icon: Icons.person_add_rounded,
-                  label: 'Friends',
+                  icon: Icons.analytics,
                   isActive: false,
                   onTap: () {
-                    // TODO Navigate to friends page
+                    // TODO Navigate to stats page
                   },
                 ),
                 
                 _buildNavItem(
                   icon: Icons.account_circle_rounded,
-                  label: 'Profile',
                   isActive: false,
                   onTap: () {
                     // TODO Navigate to profile page
@@ -92,8 +88,8 @@ class HomeNavigationBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 54,
-            height: 54,
+            width: 50,
+            height: 50,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
@@ -116,7 +112,7 @@ class HomeNavigationBar extends StatelessWidget {
             child: Icon(
               Icons.add_rounded,
               color: Colors.white,
-              size: 28,
+              size: 30,
             ),
           ),
           SizedBox(height: 2),
@@ -127,21 +123,20 @@ class HomeNavigationBar extends StatelessWidget {
 
   Widget _buildNavItem({
     required IconData icon,
-    required String label,
     required bool isActive,
     required VoidCallback onTap,
   }) {
     return BouncyButton(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 48, 
-              height: 48,
+              width: 45, 
+              height: 45,
               decoration: isActive 
                 ? BoxDecoration(
                     color: Colors.white.withOpacity(0.2),
@@ -152,16 +147,8 @@ class HomeNavigationBar extends StatelessWidget {
                 child: Icon(
                   icon,
                   color: isActive ? AppColors.primary : Colors.grey[600],
-                  size: 28, 
+                  size: 30, 
                 ),
-              ),
-            ),
-            Text(
-              label,
-              style: TextStyle(
-                color: isActive ? AppColors.primary : Colors.grey[600],
-                fontSize: 14,
-                fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
               ),
             ),
           ],

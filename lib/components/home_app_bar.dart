@@ -7,7 +7,7 @@ class HomeAppBar extends StatefulWidget {
   _HomeAppBarState createState() => _HomeAppBarState();
 }
 
-class _HomeAppBarState extends State<HomeAppBar> with SingleTickerProviderStateMixin{
+class _HomeAppBarState extends State<HomeAppBar> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
   
@@ -17,9 +17,6 @@ class _HomeAppBarState extends State<HomeAppBar> with SingleTickerProviderStateM
     _searchFocusNode.dispose();
     super.dispose();
   }
-
-  static const Duration _snapDuration = Duration(milliseconds: 240);
-  static const Curve _snapCurve = Curves.easeOutCubic;
 
   void _performSearch() {
     final query = _searchController.text.trim();
@@ -37,7 +34,7 @@ class _HomeAppBarState extends State<HomeAppBar> with SingleTickerProviderStateM
     return SliverAppBar(
       expandedHeight: 180.0,
       floating: true,
-      snap: true, 
+      snap: false,
       pinned: true,
       elevation: 0,
       automaticallyImplyLeading: false,
@@ -221,7 +218,7 @@ class _HomeAppBarState extends State<HomeAppBar> with SingleTickerProviderStateM
                               });
                             },
                             child: Container(
-                              width: 30, 
+                              width: 28, 
                               height: 30,
                               decoration: BoxDecoration(
                                 color: Colors.white.withOpacity(0.2),
@@ -230,7 +227,7 @@ class _HomeAppBarState extends State<HomeAppBar> with SingleTickerProviderStateM
                               child: Icon(
                                 Icons.search,
                                 color: Colors.white,
-                                size: 19, 
+                                size: 15, 
                               ),
                             ),
                           ),
@@ -238,7 +235,7 @@ class _HomeAppBarState extends State<HomeAppBar> with SingleTickerProviderStateM
                           BouncyButton(
                             onTap: _openNotification,
                             child: Container(
-                              width: 30, 
+                              width: 28, 
                               height: 30,
                               decoration: BoxDecoration(
                                 color: Colors.white.withOpacity(0.2),
@@ -247,7 +244,7 @@ class _HomeAppBarState extends State<HomeAppBar> with SingleTickerProviderStateM
                               child: Icon(
                                 Icons.notifications_outlined,
                                 color: Colors.white,
-                                size: 19, 
+                                size: 15, 
                               ),
                             ),
                           ),

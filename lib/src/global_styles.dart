@@ -34,6 +34,9 @@ class AppColors {
   static const Color white = Color(0xFFFFFFFF);
   static const Color grayBlue = Color(0xFFAAB8D4);
   static const Color indigo = Color(0xFF3F51B5);
+  static const Color active = Color(0xFF2196F3);
+  static const Color onProcess = Color(0xFFF44336);
+  static const Color done = Color(0xFF4CAF50);
 }
 
 class AppButtonStyles {
@@ -64,6 +67,11 @@ class AppTextStyles {
         fontSize: AppSizes.getResponsiveFontSize(_titleMedium), 
       );
 
+  static TextStyle get groupTitle => TextStyle(
+      fontWeight: FontWeight.w600,
+      fontSize: AppSizes.getResponsiveFontSize(_titleSmall), 
+    );
+
   static TextStyle get highlightTitle => TextStyle(
         fontWeight: FontWeight.w600,
         fontSize: AppSizes.getResponsiveFontSize(_titleMedium),
@@ -86,6 +94,11 @@ class AppTextStyles {
         fontSize: AppSizes.getResponsiveFontSize(_bodyMedium), 
         color: Colors.black,
       );
+    
+  static TextStyle get bigbody => TextStyle(
+    fontSize: AppSizes.getResponsiveFontSize(_bodyLarge), 
+    color: Colors.black,
+  );
 
   static TextStyle get caption => TextStyle(
         fontSize: AppSizes.getResponsiveFontSize(_caption), 
