@@ -4,8 +4,27 @@ import '../src/screens.dart';
 
 class HomeNavigationBar extends StatelessWidget {
   final VoidCallback onAddTap;
+  final String? currentRoute;
 
-  HomeNavigationBar({required this.onAddTap});
+  HomeNavigationBar({
+    required this.onAddTap,
+    this.currentRoute,
+  });
+
+  void _navigateToPage(BuildContext context, String routeName, Widget page) {
+    if (currentRoute == routeName) {
+      return;
+    }
+    
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (context) => page,
+        settings: RouteSettings(name: routeName), 
+      ),
+      (route) => false, 
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,15 +60,15 @@ class HomeNavigationBar extends StatelessWidget {
               children: [
                 _buildNavItem(
                   icon: Icons.home_rounded,
-                  isActive: true, 
+                  isActive: currentRoute == '/home', 
                   onTap: () {
-                    
-                  },
+                    _navigateToPage(context, '/home', HomePage());
+                  }
                 ),
 
                 _buildNavItem(
                   icon: Icons.people_outline_sharp,
-                  isActive: false,
+                  isActive: currentRoute == '/friends', 
                   onTap: () {
                     // TODO Navigate to friends page
                   },
@@ -59,7 +78,7 @@ class HomeNavigationBar extends StatelessWidget {
 
                 _buildNavItem(
                   icon: Icons.analytics,
-                  isActive: false,
+                  isActive: currentRoute == '/stats', 
                   onTap: () {
                     // TODO Navigate to stats page
                   },
@@ -67,7 +86,7 @@ class HomeNavigationBar extends StatelessWidget {
                 
                 _buildNavItem(
                   icon: Icons.account_circle_rounded,
-                  isActive: false,
+                  isActive: currentRoute == '/profile', 
                   onTap: () {
                     // TODO Navigate to profile page
                   },

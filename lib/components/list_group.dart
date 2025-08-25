@@ -117,7 +117,12 @@ class _ListGroupState extends State<ListGroup> {
   }
 
   void _onGroupTap(GroupModel group) {
-    // TODO group detail
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => GroupPage(Group: group), 
+      ),
+    );
   }
 
   void _showFilterOptions() {

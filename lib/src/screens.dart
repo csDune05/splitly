@@ -4,3 +4,4 @@ export 'signup_page.dart';
 export 'opening_animation.dart';
 export 'home_page.dart';
 export 'bouncy_button.dart';
+export 'group_page.dart';

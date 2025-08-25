@@ -65,11 +65,13 @@ class AppTextStyles {
   static TextStyle get normalTitle => TextStyle(
         fontWeight: FontWeight.w600,
         fontSize: AppSizes.getResponsiveFontSize(_titleMedium), 
+        color: Colors.black,
       );
 
   static TextStyle get groupTitle => TextStyle(
       fontWeight: FontWeight.w600,
       fontSize: AppSizes.getResponsiveFontSize(_titleSmall), 
+      color: Colors.black,
     );
 
   static TextStyle get highlightTitle => TextStyle(

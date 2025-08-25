@@ -139,6 +139,7 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: HomeNavigationBar(
         onAddTap: _showAddOptions,
+        currentRoute: '/home',
       ),
     );
   }
