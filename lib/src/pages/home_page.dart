@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'global_styles.dart';
+import '../global_styles.dart';
 import '../components/home_app_bar.dart';
 import '../components/list_group.dart';
 import '../components/navigation_bar.dart';
-import 'bouncy_button.dart';
+import '../bouncy_button.dart';
 class HomePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {

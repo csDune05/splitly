@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'global_styles.dart';
-import 'screens.dart';
+// import 'screens.dart';
 import '../components/navigation_bar.dart';
 import '../components/group_card.dart';
 

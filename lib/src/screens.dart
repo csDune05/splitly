@@ -1,7 +1,8 @@
-export 'welcome_page.dart';
-export 'login_page.dart';
-export 'signup_page.dart';
+export 'pages/welcome_page.dart';
+export 'pages/login_page.dart';
+export 'pages/signup_page.dart';
 export 'opening_animation.dart';
-export 'home_page.dart';
+export 'pages/home_page.dart';
 export 'bouncy_button.dart';
-export 'group_page.dart';
+export 'pages/group_page.dart';
+export 'pages/friend_page.dart';

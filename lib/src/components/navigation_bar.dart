@@ -70,7 +70,7 @@ class HomeNavigationBar extends StatelessWidget {
                   icon: Icons.people_outline_sharp,
                   isActive: currentRoute == '/friends', 
                   onTap: () {
-                    // TODO Navigate to friends page
+                    _navigateToPage(context, '/friends', FriendPage());
                   },
                 ),
 

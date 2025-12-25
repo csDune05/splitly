@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'global_styles.dart';
-import 'screens.dart';
+import '../global_styles.dart';
+import '../screens.dart';
 
 class SignupPage extends StatefulWidget {
   @override
