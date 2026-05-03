@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "android-agent-skills": {
+      "source": "devtrongle/android-agent-skills",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "3a3fe66310d1079b0c7dc77ebfc150cbb1076f949cf512aa61e6b3402978b992"
+    }
+  }
+}
