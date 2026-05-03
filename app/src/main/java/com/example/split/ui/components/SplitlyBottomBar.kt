@@ -38,6 +38,8 @@ fun SplitlyBottomBar(
     onHomeClick: () -> Unit,
     onFriendsClick: () -> Unit,
     onAddClick: () -> Unit,
+    onStatsClick: () -> Unit = {},
+    onProfileClick: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -72,13 +74,13 @@ fun SplitlyBottomBar(
             BottomBarItem(
                 icon = Icons.Filled.Analytics,
                 isActive = selectedDestination == BottomNavDestination.Stats,
-                onClick = {},
+                onClick = onStatsClick,
                 contentDescription = "Stats",
             )
             BottomBarItem(
                 icon = Icons.Filled.AccountCircle,
                 isActive = selectedDestination == BottomNavDestination.Profile,
-                onClick = {},
+                onClick = onProfileClick,
                 contentDescription = "Profile",
             )
         }

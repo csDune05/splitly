@@ -1,5 +1,6 @@
 package com.example.split.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -18,31 +19,41 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.Group
-import androidx.compose.material.icons.filled.GroupAdd
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.RadioButtonUnchecked
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.split.R
 import com.example.split.data.DemoGroupRepository
+import com.example.split.model.GroupMember
+import com.example.split.model.GroupMemberRole
 import com.example.split.model.GroupStatus
 import com.example.split.model.SplitGroup
 import com.example.split.navigation.BottomNavDestination
@@ -60,21 +71,24 @@ private enum class FilterOption {
     Done,
 }
 
+private const val CurrentUserId = "member_dung"
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+    groups: List<SplitGroup>,
     onGroupSelected: (SplitGroup) -> Unit,
+    onCreateGroup: (SplitGroup, List<GroupMember>) -> Unit,
     onFriendsSelected: () -> Unit,
+    onStatsSelected: () -> Unit,
+    onProfileSelected: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val groups = remember { DemoGroupRepository.groups() }
     var currentFilter by rememberSaveable { mutableStateOf(FilterOption.All) }
-    var showAddSheet by rememberSaveable { mutableStateOf(false) }
+    var showCreateGroupSheet by rememberSaveable { mutableStateOf(false) }
     var showFilterSheet by rememberSaveable { mutableStateOf(false) }
     val listState = rememberLazyListState()
-    val filteredGroups = remember(groups, currentFilter) {
-        groups.filterBy(currentFilter)
-    }
+    val filteredGroups = groups.filterBy(currentFilter)
 
     Scaffold(
         modifier = modifier,
@@ -85,7 +99,9 @@ fun HomeScreen(
                 selectedDestination = BottomNavDestination.Home,
                 onHomeClick = {},
                 onFriendsClick = onFriendsSelected,
-                onAddClick = { showAddSheet = true },
+                onAddClick = { showCreateGroupSheet = true },
+                onStatsClick = onStatsSelected,
+                onProfileClick = onProfileSelected,
             )
         },
     ) { innerPadding ->
@@ -185,16 +201,18 @@ fun HomeScreen(
         }
     }
 
-    if (showAddSheet) {
+    if (showCreateGroupSheet) {
         ModalBottomSheet(
-            onDismissRequest = { showAddSheet = false },
+            onDismissRequest = { showCreateGroupSheet = false },
             containerColor = Color.White,
-            dragHandle = null,
         ) {
-            AddOptionsSheet(
-                onCreateGroup = {
-                    showAddSheet = false
+            CreateGroupSheet(
+                onCreateGroup = { group, members ->
+                    onCreateGroup(group, members)
+                    currentFilter = FilterOption.All
+                    showCreateGroupSheet = false
                 },
+                onCancel = { showCreateGroupSheet = false },
             )
         }
     }
@@ -246,85 +264,249 @@ private fun EmptyGroupsMessage() {
 }
 
 @Composable
-private fun AddOptionsSheet(onCreateGroup: () -> Unit) {
+private fun CreateGroupSheet(
+    onCreateGroup: (SplitGroup, List<GroupMember>) -> Unit,
+    onCancel: () -> Unit,
+) {
+    val friends = DemoGroupRepository.friends()
+    val currentUser = friends.firstOrNull { it.id == CurrentUserId }
+        ?: GroupMember(
+            id = CurrentUserId,
+            name = "Dung",
+            avatarResId = R.drawable.user_avatar,
+            role = GroupMemberRole.Owner,
+        )
+    val candidates = friends.filterNot { it.id == CurrentUserId }
+    var groupName by rememberSaveable { mutableStateOf("") }
+    val selectedFriendIds = remember {
+        mutableStateListOf<String>().apply {
+            addAll(candidates.take(2).map { it.id })
+        }
+    }
+    val canCreate = groupName.trim().isNotEmpty()
+
+    fun toggleFriend(memberId: String) {
+        if (memberId in selectedFriendIds) {
+            selectedFriendIds.remove(memberId)
+        } else {
+            selectedFriendIds.add(memberId)
+        }
+    }
+
+    fun createGroup() {
+        if (!canCreate) return
+        val selectedFriends = candidates.filter { it.id in selectedFriendIds }
+        val members = listOf(currentUser.copy(role = GroupMemberRole.Owner)) +
+            selectedFriends.map { it.copy(role = GroupMemberRole.Member) }
+        val group = SplitGroup(
+            id = "demo_group_${System.currentTimeMillis()}",
+            name = groupName.trim(),
+            status = GroupStatus.Active,
+            memberAvatarResIds = members.map { it.avatarResId },
+            totalMemberCount = members.size,
+        )
+        onCreateGroup(group, members)
+    }
+
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxWidth()
-            .height(220.dp),
+            .padding(horizontal = 20.dp)
+            .padding(bottom = 28.dp),
+    ) {
+        Text(
+            text = "Create group",
+            color = SplitlyColors.TextPrimary,
+            fontSize = 22.sp,
+            fontWeight = FontWeight.Bold,
+        )
+        Text(
+            text = "Name the group and choose who will join it.",
+            style = SplitlyTextStyles.caption,
+            modifier = Modifier.padding(top = 6.dp),
+        )
+        Spacer(modifier = Modifier.height(18.dp))
+        CreateGroupTextField(
+            value = groupName,
+            onValueChange = { groupName = it },
+            placeholder = "Group name",
+        )
+        Spacer(modifier = Modifier.height(18.dp))
+        Text(
+            text = "Members",
+            color = SplitlyColors.TextPrimary,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        GroupMemberPickRow(
+            member = currentUser.copy(role = GroupMemberRole.Owner),
+            selected = true,
+            locked = true,
+            subtitle = "You - Owner",
+            onClick = {},
+        )
+        candidates.forEach { friend ->
+            GroupMemberPickRow(
+                member = friend,
+                selected = friend.id in selectedFriendIds,
+                locked = false,
+                subtitle = "Friend",
+                onClick = { toggleFriend(friend.id) },
+            )
+        }
+        Spacer(modifier = Modifier.height(12.dp))
+        CreateGroupButton(
+            enabled = canCreate,
+            onClick = ::createGroup,
+        )
+        BouncyButton(
+            onClick = onCancel,
+            modifier = Modifier.fillMaxWidth(),
+            pressedScale = 0.9f,
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 14.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(
+                    text = "Cancel",
+                    color = SplitlyColors.TextSecondary,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.SemiBold,
+                )
+            }
+        }
+        Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
+    }
+}
+
+@Composable
+private fun CreateGroupTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    placeholder: String,
+) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        modifier = Modifier.fillMaxWidth(),
+        singleLine = true,
+        placeholder = {
+            Text(text = placeholder, style = SplitlyTextStyles.hint)
+        },
+        keyboardOptions = KeyboardOptions(
+            capitalization = KeyboardCapitalization.Words,
+            keyboardType = KeyboardType.Text,
+        ),
+        shape = RoundedCornerShape(12.dp),
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedContainerColor = SplitlyColors.FieldBackground,
+            unfocusedContainerColor = SplitlyColors.FieldBackground,
+            focusedBorderColor = SplitlyColors.PrimaryLight,
+            unfocusedBorderColor = SplitlyColors.FieldBorder,
+            cursorColor = SplitlyColors.Primary,
+        ),
+    )
+}
+
+@Composable
+private fun GroupMemberPickRow(
+    member: GroupMember,
+    selected: Boolean,
+    locked: Boolean,
+    subtitle: String,
+    onClick: () -> Unit,
+) {
+    BouncyButton(
+        onClick = onClick,
+        enabled = !locked,
+        pressedScale = 0.9f,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 8.dp),
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    if (selected) SplitlyColors.Primary.copy(alpha = 0.08f) else Color.Transparent,
+                    RoundedCornerShape(12.dp),
+                )
+                .border(
+                    1.dp,
+                    if (selected) SplitlyColors.Primary.copy(alpha = 0.25f) else SplitlyColors.FieldBorder,
+                    RoundedCornerShape(12.dp),
+                )
+                .padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(
+                imageVector = if (selected) Icons.Filled.CheckCircle else Icons.Filled.RadioButtonUnchecked,
+                contentDescription = null,
+                tint = if (selected) SplitlyColors.Primary else SplitlyColors.TextSecondary,
+                modifier = Modifier.size(20.dp),
+            )
+            Image(
+                painter = painterResource(id = member.avatarResId),
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(start = 10.dp)
+                    .size(34.dp)
+                    .clip(CircleShape)
+                    .border(1.5.dp, Color.White, CircleShape),
+                contentScale = ContentScale.Crop,
+            )
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 10.dp),
+            ) {
+                Text(
+                    text = member.name,
+                    color = SplitlyColors.TextPrimary,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.SemiBold,
+                )
+                Text(
+                    text = subtitle,
+                    style = SplitlyTextStyles.caption,
+                    modifier = Modifier.padding(top = 2.dp),
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun CreateGroupButton(
+    enabled: Boolean,
+    onClick: () -> Unit,
+) {
+    BouncyButton(
+        onClick = onClick,
+        enabled = enabled,
+        pressedScale = 0.86f,
+        modifier = Modifier.fillMaxWidth(),
     ) {
         Box(
             modifier = Modifier
-                .padding(top = 10.dp)
-                .size(width = 40.dp, height = 4.dp)
-                .background(Color(0xFFE0E0E0), RoundedCornerShape(2.dp)),
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-        Text(
-            text = "New",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-        BouncyButton(
-            onClick = onCreateGroup,
-            modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        SplitlyColors.Primary.copy(alpha = 0.1f),
-                        RoundedCornerShape(12.dp),
-                    )
-                    .border(
-                        1.dp,
-                        SplitlyColors.Primary.copy(alpha = 0.2f),
-                        RoundedCornerShape(12.dp),
-                    )
-                    .padding(horizontal = 20.dp, vertical = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(36.dp)
-                        .background(SplitlyColors.Primary, RoundedCornerShape(8.dp)),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.GroupAdd,
-                        contentDescription = null,
-                        tint = Color.White,
-                        modifier = Modifier.size(20.dp),
-                    )
-                }
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(start = 16.dp),
-                ) {
-                    Text(
-                        text = "Create new group",
-                        color = Color(0xFF424242),
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.SemiBold,
-                    )
-                    Spacer(modifier = Modifier.height(2.dp))
-                    Text(
-                        text = "Start a new group with friends",
-                        color = Color(0xFF757575),
-                        fontSize = 13.sp,
-                    )
-                }
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                    contentDescription = null,
-                    tint = Color(0xFFBDBDBD),
-                    modifier = Modifier.size(20.dp),
+                .background(
+                    if (enabled) SplitlyColors.Primary else SplitlyColors.TextSecondary.copy(alpha = 0.25f),
+                    RoundedCornerShape(12.dp),
                 )
-            }
+                .padding(vertical = 16.dp),
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(
+                text = "Create group",
+                color = Color.White,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+            )
         }
     }
 }
