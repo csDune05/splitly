@@ -20,7 +20,7 @@ import com.example.split.ui.theme.SplitTheme
 fun SplitlyApp() {
     SplitTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            val backStack = remember { mutableStateListOf<SplitRoute>(SplitRoute.Welcome) }
+            val backStack = remember { mutableStateListOf<SplitRoute>(SplitRoute.Login) }
             val currentRoute = backStack.last()
 
             fun navigate(route: SplitRoute) {
@@ -49,8 +49,8 @@ fun SplitlyApp() {
                 )
 
                 SplitRoute.Login -> LoginScreen(
-                    onBack = ::goBack,
                     onSignedIn = { replaceAll(SplitRoute.Home) },
+                    onGoogleSignIn = { replaceAll(SplitRoute.Home) },
                     onSignUp = { navigate(SplitRoute.Signup) },
                 )
 

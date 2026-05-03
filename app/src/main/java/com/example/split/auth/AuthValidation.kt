@@ -1,10 +1,10 @@
 package com.example.split.auth
 
 data class LoginValidationResult(
-    val usernameError: String? = null,
+    val emailError: String? = null,
     val passwordError: String? = null,
 ) {
-    val isValid: Boolean = usernameError == null && passwordError == null
+    val isValid: Boolean = emailError == null && passwordError == null
 }
 
 data class SignupValidationResult(
@@ -24,9 +24,9 @@ object AuthValidation {
     private val emailRegex = Regex("""^[\w.-]+@([\w-]+\.)+[\w]{2,4}$""")
     private val phoneRegex = Regex("""^\d{10}$""")
 
-    fun validateLogin(username: String, password: String): LoginValidationResult =
+    fun validateLogin(email: String, password: String): LoginValidationResult =
         LoginValidationResult(
-            usernameError = usernameError(username),
+            emailError = emailError(email),
             passwordError = passwordError(password),
         )
 
@@ -39,11 +39,7 @@ object AuthValidation {
         SignupValidationResult(
             usernameError = usernameError(username),
             passwordError = passwordError(password),
-            emailError = when {
-                email.isBlank() -> "Please enter your email"
-                !emailRegex.matches(email) -> "Please enter a valid email address"
-                else -> null
-            },
+            emailError = emailError(email),
             phoneError = when {
                 phoneNumber.isBlank() -> "Please enter your phone number"
                 !phoneRegex.matches(phoneNumber) -> "Phone number must contain exactly 10 digits"
@@ -53,6 +49,13 @@ object AuthValidation {
 
     private fun usernameError(username: String): String? =
         if (username.isBlank()) "Please enter your username" else null
+
+    private fun emailError(email: String): String? =
+        when {
+            email.isBlank() -> "Please enter your email"
+            !emailRegex.matches(email) -> "Please enter a valid email address"
+            else -> null
+        }
 
     private fun passwordError(password: String): String? =
         when {

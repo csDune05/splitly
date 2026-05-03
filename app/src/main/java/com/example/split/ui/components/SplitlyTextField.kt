@@ -2,6 +2,7 @@ package com.example.split.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -38,12 +39,14 @@ fun SplitlyTextField(
     onPasswordVisibilityChange: (() -> Unit)? = null,
 ) {
     Column(modifier = modifier) {
-        Text(text = label, style = SplitlyTextStyles.captionTitle)
-        Spacer(modifier = Modifier.height(8.dp))
+        if (label.isNotBlank()) {
+            Text(text = label, style = SplitlyTextStyles.captionTitle)
+            Spacer(modifier = Modifier.height(8.dp))
+        }
         OutlinedTextField(
             value = value,
             onValueChange = onValueChange,
-            modifier = Modifier,
+            modifier = Modifier.fillMaxWidth(),
             textStyle = SplitlyTextStyles.body,
             singleLine = true,
             isError = error != null,
